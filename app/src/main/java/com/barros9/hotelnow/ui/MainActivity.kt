@@ -1,4 +1,4 @@
-package com.barros9.hotelnow
+package com.barros9.hotelnow.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
