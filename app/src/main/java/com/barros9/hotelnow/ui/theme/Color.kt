@@ -2,7 +2,8 @@ package com.barros9.hotelnow.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val Blue200 = Color(0xFF9FCDFB)
+val Blue600 = Color(0xFF558EE6)
+val Blue800 = Color(0xFF486ABF)
+val Orange300 = Color(0xFFE6AC55)
+val Orange800 = Color(0xFFD37213)
