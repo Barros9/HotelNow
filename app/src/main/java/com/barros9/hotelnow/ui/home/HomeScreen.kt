@@ -1,9 +1,12 @@
 package com.barros9.hotelnow.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -15,8 +18,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.barros9.hotelnow.R
 import com.barros9.hotelnow.domain.models.Hotel
 
 @Composable
@@ -42,7 +48,7 @@ fun HomeScreen(
     when (uiState) {
         HomeUiState.Loading -> ShowLoading()
         is HomeUiState.HasHotels -> ShowList(uiState.hotels, onSelectHotel = onSelectHotel)
-        is HomeUiState.Error -> ShowError(uiState.errorMessage, onRefreshHotels = onRefreshHotels)
+        is HomeUiState.Error -> ShowError(onRefreshHotels = onRefreshHotels)
     }
 }
 
@@ -61,24 +67,25 @@ fun ShowLoading() {
 
 @Composable
 fun ShowError(
-    errorMessage: String,
     onRefreshHotels: () -> Unit
 ) {
-    Row(
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = stringResource(id = R.string.error_message)
+        )
         Button(
-            onClick = {
-                onRefreshHotels()
-            },
+            onClick = { onRefreshHotels() },
             content = {
                 Text(
-                    text = errorMessage,
-                    style = MaterialTheme.typography.body1
+                    text = stringResource(id = R.string.retry),
+                    style = MaterialTheme.typography.body1,
                 )
             }
         )

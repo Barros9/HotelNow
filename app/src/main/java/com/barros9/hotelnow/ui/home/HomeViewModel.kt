@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(
             _uiState.value = HomeUiState.Loading
             _uiState.value = when (val result = getHotelsUseCase()) {
                 is Result.Success -> HomeUiState.HasHotels(result.data)
-                is Result.Error -> HomeUiState.Error(result.throwable.message ?: "")
+                is Result.Error -> HomeUiState.Error
             }
         }
     }
