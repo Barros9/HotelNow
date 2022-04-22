@@ -25,11 +25,13 @@ android {
     buildTypes {
         debug {
             debuggable true
+            buildConfigField "String", "BASE_URL", "\"https://run.mocky.io/v3/eef3c24d-5bfd-4881-9af7-0b404ce09507\""
         }
 
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"https://run.mocky.io/v3/eef3c24d-5bfd-4881-9af7-0b404ce09507\""
         }
     }
 
