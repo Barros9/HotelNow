@@ -1,0 +1,14 @@
+package com.barros9.hotelnow.domain
+
+import com.barros9.hotelnow.data.Result
+import com.barros9.hotelnow.data.hotels.HotelsRepository
+import com.barros9.hotelnow.domain.models.Hotel
+import javax.inject.Inject
+
+class GetHotelsUseCase @Inject constructor(
+    private val repository: HotelsRepository
+) {
+    suspend operator fun invoke(): Result<List<Hotel>> {
+        return repository.getHotels()
+    }
+}
