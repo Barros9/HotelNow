@@ -32,7 +32,7 @@ fun HomeScreen(
 ) {
     val uiState by homeViewModel.uiState
 
-    HomeScreen(
+    HomeContent(
         uiState = uiState,
         onSelectHotel = { },
         onRefreshHotels = { homeViewModel.refreshHotels() }
@@ -40,14 +40,14 @@ fun HomeScreen(
 }
 
 @Composable
-fun HomeScreen(
+fun HomeContent(
     uiState: HomeUiState,
     onSelectHotel: (Hotel) -> Unit,
     onRefreshHotels: () -> Unit
 ) {
     when (uiState) {
         HomeUiState.Loading -> ShowLoading()
-        is HomeUiState.HasHotels -> ShowList(uiState.hotels, onSelectHotel = onSelectHotel)
+        is HomeUiState.HasHotels -> ShowHotelsList(uiState.hotels, onSelectHotel = onSelectHotel)
         is HomeUiState.Error -> ShowError(onRefreshHotels = onRefreshHotels)
     }
 }
@@ -93,7 +93,7 @@ fun ShowError(
 }
 
 @Composable
-fun ShowList(
+fun ShowHotelsList(
     hotels: List<Hotel>,
     onSelectHotel: (Hotel) -> Unit
 ) {
