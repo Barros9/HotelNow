@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -77,4 +78,9 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_plugin_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_plugin_version"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_version"
+
+    // Ktor
+    implementation "io.ktor:ktor-client-json:$ktor_version"
+    implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
+    implementation "io.ktor:ktor-client-android:$ktor_version"
 }

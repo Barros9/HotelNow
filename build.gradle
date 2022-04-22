@@ -9,9 +9,11 @@ buildscript {
         navigation_version = '2.4.2'
         hilt_plugin_version = '2.41'
         hilt_version = '1.0.0'
+        ktor_version = '1.5.1'
     }
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:$hilt_plugin_version")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
     }
 }
 
