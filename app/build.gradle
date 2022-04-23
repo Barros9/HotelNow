@@ -85,4 +85,7 @@ dependencies {
     implementation "io.ktor:ktor-client-json:$ktor_version"
     implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
     implementation "io.ktor:ktor-client-android:$ktor_version"
+
+    // Glide
+    implementation "com.github.skydoves:landscapist-glide:$landscapist_glide_version"
 }
