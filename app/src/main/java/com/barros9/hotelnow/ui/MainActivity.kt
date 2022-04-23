@@ -6,6 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.barros9.hotelnow.domain.models.Hotel
+import com.barros9.hotelnow.ui.detail.DetailScreen
 import com.barros9.hotelnow.ui.home.HomeScreen
 import com.barros9.hotelnow.ui.theme.HotelNowTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,8 +21,19 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             HotelNowTheme {
-                NavHost(navController, startDestination = HotelNowDestinations.HOME_ROUTE) {
-                    composable(HotelNowDestinations.HOME_ROUTE) { HomeScreen(navController) }
+                NavHost(navController, startDestination = "home") {
+                    composable(
+                        route = "home"
+                    ) {
+                        HomeScreen(navController)
+                    }
+                    composable(
+                        route = "detail?hotelItem={hotelItem}",
+                        arguments = mutableListOf(navArgument("hotelItem") { type = HotelNavType })
+                    ) {
+                        val hotel = navController.currentBackStackEntry?.arguments?.getParcelable<Hotel>("hotelItem")
+                        DetailScreen(navController, hotel)
+                    }
                 }
             }
         }

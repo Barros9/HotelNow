@@ -1,8 +1,11 @@
 package com.barros9.hotelnow.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 @Serializable
+@Parcelize
 data class Hotel(
     val id: Long,
     val name: String,
@@ -15,5 +18,5 @@ data class Hotel(
     val userRating: Double,
     val price: Double,
     val currency: String
-)
+) : Parcelable
 

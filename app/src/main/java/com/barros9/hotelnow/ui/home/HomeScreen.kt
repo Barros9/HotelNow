@@ -1,5 +1,6 @@
 package com.barros9.hotelnow.ui.home
 
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,11 @@ import androidx.navigation.NavHostController
 import com.barros9.hotelnow.R
 import com.barros9.hotelnow.domain.models.Hotel
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
+@OptIn(ExperimentalSerializationApi::class)
 @Composable
 fun HomeScreen(
     navHostController: NavHostController,
@@ -45,7 +50,7 @@ fun HomeScreen(
 
     HomeContent(
         uiState = uiState,
-        onSelectHotel = { },
+        onSelectHotel = { navHostController.navigate("detail?hotelItem=${Uri.encode(Json.encodeToString(it))}") },
         onRefreshHotels = { homeViewModel.refreshHotels() }
     )
 }
