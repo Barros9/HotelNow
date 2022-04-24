@@ -97,4 +97,5 @@ dependencies {
 
     // Accompanist
     implementation "com.google.accompanist:accompanist-pager:$accompanist_pager_version"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_pager_version"
 }
