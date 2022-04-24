@@ -90,5 +90,11 @@ dependencies {
     // Glide
     implementation "com.github.skydoves:landscapist-glide:$landscapist_glide_version"
 
+    // Room
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+
+    // Accompanist
     implementation "com.google.accompanist:accompanist-pager:$accompanist_pager_version"
 }
