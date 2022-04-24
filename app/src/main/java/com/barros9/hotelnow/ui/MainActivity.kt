@@ -31,8 +31,9 @@ class MainActivity : ComponentActivity() {
                         route = "detail?hotelItem={hotelItem}",
                         arguments = mutableListOf(navArgument("hotelItem") { type = HotelNavType })
                     ) {
-                        val hotel = navController.currentBackStackEntry?.arguments?.getParcelable<Hotel>("hotelItem")
-                        DetailScreen(navController, hotel)
+                        navController.currentBackStackEntry?.arguments?.getParcelable<Hotel>("hotelItem")?.also {
+                            DetailScreen(navController, it)
+                        }
                     }
                 }
             }

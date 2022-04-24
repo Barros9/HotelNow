@@ -89,4 +89,6 @@ dependencies {
 
     // Glide
     implementation "com.github.skydoves:landscapist-glide:$landscapist_glide_version"
+
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_pager_version"
 }
