@@ -3,4 +3,8 @@
     <string name="error_message">Something went wrong, please retry.</string>
     <string name="retry">Retry</string>
     <string name="hotel_now">HotelNow</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="sorted_by">Sorted by</string>
+    <string name="sorted_by_with_param">Sorted by %1$s</string>
 </resources>

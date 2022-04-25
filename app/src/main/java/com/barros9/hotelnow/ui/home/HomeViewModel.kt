@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.barros9.hotelnow.data.Result
 import com.barros9.hotelnow.domain.GetHotelsUseCase
+import com.barros9.hotelnow.domain.models.SortType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,6 +18,12 @@ class HomeViewModel @Inject constructor(
 
     private val _uiState by lazy { mutableStateOf<HomeUiState>(HomeUiState.Loading) }
     val uiState: State<HomeUiState> by lazy { _uiState }
+
+    private val _showSortTypeDialog by lazy { mutableStateOf(false) }
+    val showSortTypeDialog: State<Boolean> by lazy { _showSortTypeDialog }
+
+    private val _sortTypeSelected by lazy { mutableStateOf(SortType.None) }
+    val sortTypeSelected: State<SortType> by lazy { _sortTypeSelected }
 
     init {
         refreshHotels()
@@ -30,5 +37,13 @@ class HomeViewModel @Inject constructor(
                 is Result.Error -> HomeUiState.Error
             }
         }
+    }
+
+    fun showSortTypeDialog(isOpen: Boolean) {
+        _showSortTypeDialog.value = isOpen
+    }
+
+    fun selectSortTypeOption(sortType: SortType) {
+        _sortTypeSelected.value = sortType
     }
 }

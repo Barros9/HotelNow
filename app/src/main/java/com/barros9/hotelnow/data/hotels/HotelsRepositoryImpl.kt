@@ -23,6 +23,7 @@ class HotelsRepositoryImpl @Inject constructor(
             SortType.Stars -> localDataSource.getHotelsOrderByStars(isAsc)
             SortType.UserRating -> localDataSource.getHotelsOrderByUserRating(isAsc)
             SortType.Price -> localDataSource.getHotelsOrderByPrice(isAsc)
+            SortType.None -> localDataSource.getHotels()
         }
     }
 }

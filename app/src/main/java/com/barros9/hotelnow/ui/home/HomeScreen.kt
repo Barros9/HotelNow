@@ -14,16 +14,22 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -35,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.barros9.hotelnow.R
 import com.barros9.hotelnow.domain.models.Hotel
+import com.barros9.hotelnow.domain.models.SortType
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
@@ -47,11 +54,17 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by homeViewModel.uiState
+    val showSortTypeDialog by homeViewModel.showSortTypeDialog
+    val sortTypeSelected by homeViewModel.sortTypeSelected
 
     HomeContent(
         uiState = uiState,
         onSelectHotel = { navHostController.navigate("detail?hotelItem=${Uri.encode(Json.encodeToString(it))}") },
-        onRefreshHotels = { homeViewModel.refreshHotels() }
+        onRefreshHotels = { homeViewModel.refreshHotels() },
+        showSortTypeDialog = showSortTypeDialog,
+        onShowSortTypeDialog = { homeViewModel.showSortTypeDialog(it) },
+        sortTypeSelected = sortTypeSelected,
+        onSelectSortTypeOption = { homeViewModel.selectSortTypeOption(it) }
     )
 }
 
@@ -59,14 +72,24 @@ fun HomeScreen(
 fun HomeContent(
     uiState: HomeUiState,
     onSelectHotel: (Hotel) -> Unit,
-    onRefreshHotels: () -> Unit
+    onRefreshHotels: () -> Unit,
+    showSortTypeDialog: Boolean,
+    onShowSortTypeDialog: (Boolean) -> Unit,
+    sortTypeSelected: SortType,
+    onSelectSortTypeOption: (SortType) -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
         Title()
+        SortOption(sortTypeSelected = sortTypeSelected, onShowSortTypeDialog = onShowSortTypeDialog)
+        ShowSortDialog(
+            sortTypeSelected = sortTypeSelected,
+            onSelectSortTypeOption = onSelectSortTypeOption,
+            showSortTypeDialog = showSortTypeDialog,
+            onShowSortTypeDialog = onShowSortTypeDialog
+        )
 
         when (uiState) {
             HomeUiState.Loading -> ShowLoading()
@@ -81,13 +104,103 @@ fun Title() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 24.dp, bottom = 8.dp),
+            .padding(top = 24.dp),
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
             style = MaterialTheme.typography.h3,
             text = stringResource(R.string.hotel_now)
         )
+    }
+}
+
+@Composable
+fun SortOption(
+    sortTypeSelected: SortType,
+    onShowSortTypeDialog: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        TextButton(onClick = {
+            onShowSortTypeDialog(true)
+        }) {
+            Text(text = stringResource(R.string.sorted_by_with_param, sortTypeSelected.name))
+        }
+    }
+}
+
+@Composable
+fun ShowSortDialog(
+    sortTypeSelected: SortType,
+    onSelectSortTypeOption: (SortType) -> Unit,
+    showSortTypeDialog: Boolean,
+    onShowSortTypeDialog: (Boolean) -> Unit
+) {
+    var newSortOptionSelected = sortTypeSelected
+    if (showSortTypeDialog) {
+        AlertDialog(
+            onDismissRequest = { onShowSortTypeDialog(false) },
+            confirmButton = {
+                TextButton(onClick = {
+                    onSelectSortTypeOption(newSortOptionSelected)
+                    onShowSortTypeDialog(false)
+                })
+                { Text(text = stringResource(R.string.ok)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { onShowSortTypeDialog(false) })
+                { Text(text = stringResource(R.string.cancel)) }
+            },
+            title = { Text(text = stringResource(R.string.sorted_by)) },
+            text = { SortOptions(sortTypeSelected) { newSortOptionSelected = it } }
+        )
+    }
+}
+
+@Composable
+fun SortOptions(
+    sortTypeSelected: SortType,
+    onSelectSortTypeOption: (SortType) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        val (sortTypeSelectedRemember, onSelectSortTypeOptionRemember) = remember { mutableStateOf(sortTypeSelected) }
+
+        Column {
+            SortType.values().forEach { sortType ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .selectable(
+                            selected = (sortType == sortTypeSelectedRemember),
+                            onClick = {
+                                onSelectSortTypeOptionRemember(sortType)
+                                onSelectSortTypeOption(sortType)
+                            }
+                        )
+                        .padding(horizontal = 16.dp)
+                ) {
+                    RadioButton(
+                        modifier = Modifier.padding(8.dp),
+                        selected = (sortType == sortTypeSelectedRemember),
+                        onClick = {
+                            onSelectSortTypeOptionRemember(sortType)
+                            onSelectSortTypeOption(sortType)
+                        }
+                    )
+                    Text(
+                        text = sortType.name,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
+            }
+        }
     }
 }
 
