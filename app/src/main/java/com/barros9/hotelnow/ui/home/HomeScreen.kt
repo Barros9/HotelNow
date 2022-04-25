@@ -61,10 +61,33 @@ fun HomeContent(
     onSelectHotel: (Hotel) -> Unit,
     onRefreshHotels: () -> Unit
 ) {
-    when (uiState) {
-        HomeUiState.Loading -> ShowLoading()
-        is HomeUiState.HasHotels -> ShowHotelsList(uiState.hotels, onSelectHotel = onSelectHotel)
-        is HomeUiState.Error -> ShowError(onRefreshHotels = onRefreshHotels)
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Top
+    ) {
+        Title()
+
+        when (uiState) {
+            HomeUiState.Loading -> ShowLoading()
+            is HomeUiState.HasHotels -> ShowHotelsList(uiState.hotels, onSelectHotel = onSelectHotel)
+            is HomeUiState.Error -> ShowError(onRefreshHotels = onRefreshHotels)
+        }
+    }
+}
+
+@Composable
+fun Title() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 24.dp, bottom = 8.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            style = MaterialTheme.typography.h3,
+            text = stringResource(R.string.hotel_now)
+        )
     }
 }
 
