@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor(
     private val _showSortTypeDialog by lazy { mutableStateOf(false) }
     val showSortTypeDialog: State<Boolean> by lazy { _showSortTypeDialog }
 
-    private val _sortTypeSelected by lazy { mutableStateOf(SortType.None) }
+    private val _sortTypeSelected by lazy { mutableStateOf(SortType.Name) }
     val sortTypeSelected: State<SortType> by lazy { _sortTypeSelected }
 
     private val _isAscending by lazy { mutableStateOf(true) }

@@ -15,15 +15,19 @@ class HotelsLocalDataSourceImpl @Inject constructor(
         hotelDao.insertHotels(hotels)
     }
 
-    override suspend fun getHotelsOrderByStars(isAsc: Boolean): List<Hotel> {
-        return hotelDao.getHotelsOrderByStars(isAsc)
+    override suspend fun getHotelsOrderByName(isAscending: Boolean): List<Hotel> {
+        return hotelDao.getHotelsOrderByName(isAscending)
     }
 
-    override suspend fun getHotelsOrderByUserRating(isAsc: Boolean): List<Hotel> {
-        return hotelDao.getHotelsOrderByUserRating(isAsc)
+    override suspend fun getHotelsOrderByStars(isAscending: Boolean): List<Hotel> {
+        return hotelDao.getHotelsOrderByStars(isAscending)
     }
 
-    override suspend fun getHotelsOrderByPrice(isAsc: Boolean): List<Hotel> {
-        return hotelDao.getHotelsOrderByPrice(isAsc)
+    override suspend fun getHotelsOrderByUserRating(isAscending: Boolean): List<Hotel> {
+        return hotelDao.getHotelsOrderByUserRating(isAscending)
+    }
+
+    override suspend fun getHotelsOrderByPrice(isAscending: Boolean): List<Hotel> {
+        return hotelDao.getHotelsOrderByPrice(isAscending)
     }
 }

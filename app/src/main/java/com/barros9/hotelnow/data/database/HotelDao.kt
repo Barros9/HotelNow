@@ -15,6 +15,9 @@ interface HotelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHotels(hotels: List<Hotel>)
 
+    @Query("SELECT * FROM hotels ORDER BY CASE WHEN :isAsc = 1 THEN name END ASC, CASE WHEN :isAsc = 0 THEN name END DESC")
+    suspend fun getHotelsOrderByName(isAsc: Boolean): List<Hotel>
+
     @Query("SELECT * FROM hotels ORDER BY CASE WHEN :isAsc = 1 THEN stars END ASC, CASE WHEN :isAsc = 0 THEN stars END DESC")
     suspend fun getHotelsOrderByStars(isAsc: Boolean): List<Hotel>
 

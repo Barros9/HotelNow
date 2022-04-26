@@ -10,7 +10,7 @@ class GetHotelsUseCase @Inject constructor(
     private val repository: HotelsRepository
 ) {
     suspend operator fun invoke(
-        sortType: SortType = SortType.None,
+        sortType: SortType = SortType.Name,
         isAsc: Boolean = false
     ): Result<List<Hotel>> {
         return repository.getHotels(sortType, isAsc)
