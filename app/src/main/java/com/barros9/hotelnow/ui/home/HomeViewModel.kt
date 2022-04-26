@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(
     fun refreshHotels() {
         viewModelScope.launch {
             _uiState.value = HomeUiState.Loading
-            _uiState.value = when (val result = getHotelsUseCase()) {
+            _uiState.value = when (val result = getHotelsUseCase(_sortTypeSelected.value, _isAscending.value)) {
                 is Result.Success -> HomeUiState.HasHotels(result.data)
                 is Result.Error -> HomeUiState.Error
             }
@@ -48,9 +48,11 @@ class HomeViewModel @Inject constructor(
 
     fun selectSortTypeOption(sortType: SortType) {
         _sortTypeSelected.value = sortType
+        refreshHotels()
     }
 
     fun selectAscending() {
         _isAscending.value = !_isAscending.value
+        refreshHotels()
     }
 }

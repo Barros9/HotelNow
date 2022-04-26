@@ -12,13 +12,10 @@ class HotelsRepositoryImpl @Inject constructor(
     private val remoteDataSource: HotelsRemoteDataSource,
     private val localDataSource: HotelsLocalDataSource
 ) : HotelsRepository {
-    override suspend fun getHotels(): Result<List<Hotel>> = getResult {
+    override suspend fun getHotels(sortType: SortType, isAsc: Boolean): Result<List<Hotel>> = getResult {
         val hotels = remoteDataSource.getHotels()
         localDataSource.insertHotels(hotels)
-        localDataSource.getHotels()
-    }
 
-    override suspend fun getHotelsOrderBy(sortType: SortType, isAsc: Boolean) = getResult {
         when (sortType) {
             SortType.Stars -> localDataSource.getHotelsOrderByStars(isAsc)
             SortType.UserRating -> localDataSource.getHotelsOrderByUserRating(isAsc)
