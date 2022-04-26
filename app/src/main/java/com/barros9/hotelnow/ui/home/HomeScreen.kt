@@ -208,7 +208,7 @@ fun SortOptions(
         Column {
             SortType.values().forEach { sortType ->
                 Row(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .selectable(
                             selected = (sortType == sortTypeSelectedRemember),
@@ -216,12 +216,11 @@ fun SortOptions(
                                 onSelectSortTypeOptionRemember(sortType)
                                 onSelectSortTypeOption(sortType)
                             }
-                        )
-                        .padding(horizontal = 16.dp)
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        modifier = Modifier.padding(8.dp),
-                        selected = (sortType == sortTypeSelectedRemember),
+                        selected = sortType == sortTypeSelectedRemember,
                         onClick = {
                             onSelectSortTypeOptionRemember(sortType)
                             onSelectSortTypeOption(sortType)
@@ -229,7 +228,7 @@ fun SortOptions(
                     )
                     Text(
                         text = sortType.name,
-                        modifier = Modifier.padding(start = 16.dp)
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                 }
             }
