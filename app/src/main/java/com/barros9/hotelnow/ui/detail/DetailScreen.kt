@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
@@ -46,148 +48,155 @@ fun DetailScreen(
     val pagerState = rememberPagerState()
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = Modifier.verticalScroll(scrollState)
-    ) {
-        HorizontalPager(
-            modifier = Modifier.fillMaxWidth(),
-            state = pagerState,
-            count = hotel.gallery.size,
-        ) { page ->
-            GlideImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(400.dp),
-                imageModel = hotel.gallery[page],
-                contentScale = ContentScale.FillBounds,
-                placeHolder = ImageVector.vectorResource(R.drawable.ic_loading),
-                error = ImageVector.vectorResource(R.drawable.ic_broken_image)
-            )
-
-            HorizontalPagerIndicator(
-                pagerState = pagerState,
-                modifier = Modifier.padding(16.dp),
-            )
-        }
-
+    Surface {
         Column(
-            modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState),
+            verticalArrangement = Arrangement.Top
         ) {
-            Text(
-                style = MaterialTheme.typography.h5,
-                text = hotel.name
-            )
-            TextButton(
-                onClick = {
-                    val geoUri = "http://maps.google.com/maps?q=loc:${hotel.location.latitude},${hotel.location.longitude}(${hotel.name})"
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(geoUri)))
-                }
-            ) {
-                Text(text = "${hotel.location.address} - ${hotel.location.city}")
+            HorizontalPager(
+                modifier = Modifier.fillMaxWidth(),
+                state = pagerState,
+                count = hotel.gallery.size,
+            ) { page ->
+                GlideImage(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp),
+                    imageModel = hotel.gallery[page],
+                    contentScale = ContentScale.FillBounds,
+                    placeHolder = ImageVector.vectorResource(R.drawable.ic_loading),
+                    error = ImageVector.vectorResource(R.drawable.ic_broken_image)
+                )
+
+                HorizontalPagerIndicator(
+                    pagerState = pagerState,
+                    modifier = Modifier.padding(16.dp),
+                )
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+
+            Column(
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp)
             ) {
-                Column {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Text(
+                    style = MaterialTheme.typography.h5,
+                    text = hotel.name
+                )
+                TextButton(
+                    onClick = {
+                        val geoUri = "http://maps.google.com/maps?q=loc:${hotel.location.latitude},${hotel.location.longitude}(${hotel.name})"
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(geoUri)))
+                    }
+                ) {
+                    Text(text = "${hotel.location.address} - ${hotel.location.city}")
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            Text(
+                                text = stringResource(R.string.price),
+                                style = MaterialTheme.typography.overline
+                            )
+                        }
                         Text(
-                            text = stringResource(R.string.price),
-                            style = MaterialTheme.typography.overline
+                            text = hotel.price.toString(),
+                            style = MaterialTheme.typography.body2,
+                            color = MaterialTheme.colors.secondary
                         )
                     }
-                    Text(
-                        text = hotel.price.toString(),
-                        style = MaterialTheme.typography.body2
-                    )
-                }
-                Column {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Column {
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            Text(
+                                text = stringResource(R.string.rating),
+                                style = MaterialTheme.typography.overline
+                            )
+                        }
                         Text(
-                            text = stringResource(R.string.rating),
-                            style = MaterialTheme.typography.overline
+                            text = hotel.userRating.toString(),
+                            style = MaterialTheme.typography.body2,
+                            color = MaterialTheme.colors.secondary
                         )
                     }
-                    Text(
-                        text = hotel.userRating.toString(),
-                        style = MaterialTheme.typography.body2
-                    )
-                }
-                Row {
-                    repeat(hotel.stars) {
-                        Icon(Icons.Filled.Star, "", tint = MaterialTheme.colors.secondaryVariant)
+                    Row {
+                        repeat(hotel.stars) {
+                            Icon(Icons.Filled.Star, "", tint = MaterialTheme.colors.secondaryVariant)
+                        }
                     }
                 }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            Text(
+                                text = stringResource(R.string.phone),
+                                style = MaterialTheme.typography.overline
+                            )
+                        }
                         Text(
-                            text = stringResource(R.string.phone),
-                            style = MaterialTheme.typography.overline
+                            text = hotel.contact.phoneNumber,
+                            style = MaterialTheme.typography.body2
                         )
                     }
-                    Text(
-                        text = hotel.contact.phoneNumber,
-                        style = MaterialTheme.typography.body2
-                    )
-                }
-                Column {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Column {
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            Text(
+                                text = stringResource(R.string.email),
+                                textAlign = TextAlign.Right,
+                                style = MaterialTheme.typography.overline
+                            )
+                        }
                         Text(
-                            text = stringResource(R.string.email),
+                            text = hotel.contact.email,
                             textAlign = TextAlign.Right,
-                            style = MaterialTheme.typography.overline
+                            style = MaterialTheme.typography.body2
                         )
                     }
-                    Text(
-                        text = hotel.contact.email,
-                        textAlign = TextAlign.Right,
-                        style = MaterialTheme.typography.body2
-                    )
                 }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            Text(
+                                text = stringResource(R.string.check_in),
+                                style = MaterialTheme.typography.overline
+                            )
+                        }
                         Text(
-                            text = stringResource(R.string.check_in),
-                            style = MaterialTheme.typography.overline
+                            text = "${hotel.checkIn.from} - ${hotel.checkIn.to}",
+                            style = MaterialTheme.typography.body2
                         )
                     }
-                    Text(
-                        text = "${hotel.checkIn.from} - ${hotel.checkIn.to}",
-                        style = MaterialTheme.typography.body2
-                    )
-                }
-                Column {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Column {
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            Text(
+                                text = stringResource(R.string.check_out),
+                                textAlign = TextAlign.Right,
+                                style = MaterialTheme.typography.overline
+                            )
+                        }
                         Text(
-                            text = stringResource(R.string.check_out),
+                            text = "${hotel.checkIn.from} - ${hotel.checkIn.to}",
                             textAlign = TextAlign.Right,
-                            style = MaterialTheme.typography.overline
+                            style = MaterialTheme.typography.body2
                         )
                     }
-                    Text(
-                        text = "${hotel.checkIn.from} - ${hotel.checkIn.to}",
-                        textAlign = TextAlign.Right,
-                        style = MaterialTheme.typography.body2
-                    )
                 }
             }
         }

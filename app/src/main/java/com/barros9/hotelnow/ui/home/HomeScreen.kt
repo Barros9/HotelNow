@@ -26,6 +26,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
@@ -90,28 +91,30 @@ fun HomeContent(
     isAscending: Boolean,
     onSelectAscending: () -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top
-    ) {
-        Title()
-        SortOption(
-            sortTypeSelected = sortTypeSelected,
-            onShowSortTypeDialog = onShowSortTypeDialog,
-            isAscending = isAscending,
-            onSelectAscending = onSelectAscending
-        )
-        ShowSortDialog(
-            sortTypeSelected = sortTypeSelected,
-            onSelectSortTypeOption = onSelectSortTypeOption,
-            showSortTypeDialog = showSortTypeDialog,
-            onShowSortTypeDialog = onShowSortTypeDialog
-        )
+    Surface {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Top
+        ) {
+            Title()
+            SortOption(
+                sortTypeSelected = sortTypeSelected,
+                onShowSortTypeDialog = onShowSortTypeDialog,
+                isAscending = isAscending,
+                onSelectAscending = onSelectAscending
+            )
+            ShowSortDialog(
+                sortTypeSelected = sortTypeSelected,
+                onSelectSortTypeOption = onSelectSortTypeOption,
+                showSortTypeDialog = showSortTypeDialog,
+                onShowSortTypeDialog = onShowSortTypeDialog
+            )
 
-        when (uiState) {
-            HomeUiState.Loading -> ShowLoading()
-            is HomeUiState.HasHotels -> ShowHotelsList(hotels = uiState.hotels, onSelectHotel = onSelectHotel)
-            is HomeUiState.Error -> ShowError(onRefreshHotels = onRefreshHotels)
+            when (uiState) {
+                HomeUiState.Loading -> ShowLoading()
+                is HomeUiState.HasHotels -> ShowHotelsList(hotels = uiState.hotels, onSelectHotel = onSelectHotel)
+                is HomeUiState.Error -> ShowError(onRefreshHotels = onRefreshHotels)
+            }
         }
     }
 }
@@ -350,7 +353,8 @@ fun HotelItem(
                     }
                     Text(
                         text = hotel.price.toString(),
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.body2,
+                        color = MaterialTheme.colors.secondary
                     )
                 }
                 Column {
@@ -362,7 +366,8 @@ fun HotelItem(
                     }
                     Text(
                         text = hotel.userRating.toString(),
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.body2,
+                        color = MaterialTheme.colors.secondary
                     )
                 }
                 Row {
