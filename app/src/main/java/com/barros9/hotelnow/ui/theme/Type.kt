@@ -29,7 +29,7 @@ val Typography = Typography(
     ),
     h3 = TextStyle(
         fontFamily = nunitoFamily,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 50.sp,
         letterSpacing = 0.sp
     ),

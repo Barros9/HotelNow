@@ -126,7 +126,8 @@ fun Title() {
     ) {
         Text(
             style = MaterialTheme.typography.h3,
-            text = stringResource(R.string.hotel_now)
+            text = stringResource(R.string.hotel_now),
+            color = MaterialTheme.colors.primary
         )
     }
 }
@@ -147,7 +148,10 @@ fun SortOption(
         TextButton(
             onClick = { onShowSortTypeDialog(true) }
         ) {
-            Text(text = stringResource(R.string.sorted_by_with_param, sortTypeSelected.name))
+            Text(
+                text = stringResource(R.string.sorted_by_with_param, sortTypeSelected.name),
+                color = MaterialTheme.colors.primaryVariant
+            )
         }
 
         IconButton(
