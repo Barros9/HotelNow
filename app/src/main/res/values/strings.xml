@@ -7,4 +7,6 @@
     <string name="cancel">Cancel</string>
     <string name="sorted_by">Sorted by</string>
     <string name="sorted_by_with_param">Sorted by %1$s</string>
+    <string name="rating">Rating</string>
+    <string name="price">Price</string>
 </resources>

@@ -19,9 +19,11 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
@@ -31,6 +33,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.ArrowDownward
 import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -138,7 +141,8 @@ fun SortOption(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.Center
     ) {
         TextButton(
             onClick = { onShowSortTypeDialog(true) }
@@ -304,7 +308,7 @@ fun HotelItem(
         modifier = Modifier
             .clickable(onClick = { onSelectHotel(hotel) })
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         GlideImage(
@@ -324,21 +328,51 @@ fun HotelItem(
         ) {
             Text(
                 text = hotel.name,
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.h6,
             )
-            Text(
-                text = hotel.userRating.toString(),
-                style = MaterialTheme.typography.caption
-            )
-            Row {
-                repeat(hotel.stars) {
-                    Icon(Icons.Filled.Star, "")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = stringResource(R.string.price),
+                            style = MaterialTheme.typography.overline
+                        )
+                    }
+                    Text(
+                        text = hotel.price.toString(),
+                        style = MaterialTheme.typography.body2
+                    )
+                }
+                Column {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = stringResource(R.string.rating),
+                            style = MaterialTheme.typography.overline
+                        )
+                    }
+                    Text(
+                        text = hotel.userRating.toString(),
+                        style = MaterialTheme.typography.body2
+                    )
+                }
+                Row {
+                    repeat(hotel.stars) {
+                        Icon(Icons.Filled.Star, "", tint = MaterialTheme.colors.secondaryVariant)
+                    }
                 }
             }
-            Text(
-                text = "${hotel.location.address} - ${hotel.location.city}",
-                style = MaterialTheme.typography.caption
-            )
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Text(
+                    text = "${hotel.location.address} - ${hotel.location.city}",
+                    style = MaterialTheme.typography.caption
+                )
+            }
         }
     }
     Divider(thickness = 1.dp)

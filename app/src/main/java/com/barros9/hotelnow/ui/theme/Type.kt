@@ -47,7 +47,7 @@ val Typography = Typography(
     ),
     h6 = TextStyle(
         fontFamily = nunitoFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 21.sp,
         letterSpacing = 0.15.sp
     ),
