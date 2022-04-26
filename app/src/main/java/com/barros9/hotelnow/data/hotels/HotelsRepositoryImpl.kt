@@ -18,7 +18,7 @@ class HotelsRepositoryImpl @Inject constructor(
 
         when (sortType) {
             SortType.Stars -> localDataSource.getHotelsOrderByStars(isAscending)
-            SortType.UserRating -> localDataSource.getHotelsOrderByUserRating(isAscending)
+            SortType.Rating -> localDataSource.getHotelsOrderByUserRating(isAscending)
             SortType.Price -> localDataSource.getHotelsOrderByPrice(isAscending)
             SortType.Name -> localDataSource.getHotelsOrderByName(isAscending)
         }
