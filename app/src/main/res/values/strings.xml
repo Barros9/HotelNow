@@ -9,4 +9,8 @@
     <string name="sorted_by_with_param">Sorted by %1$s</string>
     <string name="rating">Rating</string>
     <string name="price">Price</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="check_in">CheckIn</string>
+    <string name="check_out">CheckOut</string>
 </resources>

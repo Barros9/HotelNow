@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                         arguments = mutableListOf(navArgument("hotelItem") { type = HotelNavType })
                     ) {
                         navController.currentBackStackEntry?.arguments?.getParcelable<Hotel>("hotelItem")?.also {
-                            DetailScreen(navController, it)
+                            DetailScreen(it)
                         }
                     }
                 }
