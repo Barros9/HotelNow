@@ -63,12 +63,12 @@ fun DetailScreen(
                 placeHolder = ImageVector.vectorResource(R.drawable.ic_loading),
                 error = ImageVector.vectorResource(R.drawable.ic_broken_image)
             )
-        }
 
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            modifier = Modifier.padding(16.dp),
-        )
+            HorizontalPagerIndicator(
+                pagerState = pagerState,
+                modifier = Modifier.padding(16.dp),
+            )
+        }
 
         Column(
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp)
