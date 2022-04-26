@@ -25,6 +25,9 @@ class HomeViewModel @Inject constructor(
     private val _sortTypeSelected by lazy { mutableStateOf(SortType.None) }
     val sortTypeSelected: State<SortType> by lazy { _sortTypeSelected }
 
+    private val _isAscending by lazy { mutableStateOf(true) }
+    val isAscending: State<Boolean> by lazy { _isAscending }
+
     init {
         refreshHotels()
     }
@@ -45,5 +48,9 @@ class HomeViewModel @Inject constructor(
 
     fun selectSortTypeOption(sortType: SortType) {
         _sortTypeSelected.value = sortType
+    }
+
+    fun selectAscending() {
+        _isAscending.value = !_isAscending.value
     }
 }

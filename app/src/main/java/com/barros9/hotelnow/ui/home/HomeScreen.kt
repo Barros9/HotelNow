@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,12 +21,15 @@ import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.ArrowDownward
+import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,6 +60,7 @@ fun HomeScreen(
     val uiState by homeViewModel.uiState
     val showSortTypeDialog by homeViewModel.showSortTypeDialog
     val sortTypeSelected by homeViewModel.sortTypeSelected
+    val isAscending by homeViewModel.isAscending
 
     HomeContent(
         uiState = uiState,
@@ -64,7 +69,9 @@ fun HomeScreen(
         showSortTypeDialog = showSortTypeDialog,
         onShowSortTypeDialog = { homeViewModel.showSortTypeDialog(it) },
         sortTypeSelected = sortTypeSelected,
-        onSelectSortTypeOption = { homeViewModel.selectSortTypeOption(it) }
+        onSelectSortTypeOption = { homeViewModel.selectSortTypeOption(it) },
+        isAscending = isAscending,
+        onSelectAscending = { homeViewModel.selectAscending() }
     )
 }
 
@@ -76,14 +83,21 @@ fun HomeContent(
     showSortTypeDialog: Boolean,
     onShowSortTypeDialog: (Boolean) -> Unit,
     sortTypeSelected: SortType,
-    onSelectSortTypeOption: (SortType) -> Unit
+    onSelectSortTypeOption: (SortType) -> Unit,
+    isAscending: Boolean,
+    onSelectAscending: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
         Title()
-        SortOption(sortTypeSelected = sortTypeSelected, onShowSortTypeDialog = onShowSortTypeDialog)
+        SortOption(
+            sortTypeSelected = sortTypeSelected,
+            onShowSortTypeDialog = onShowSortTypeDialog,
+            isAscending = isAscending,
+            onSelectAscending = onSelectAscending
+        )
         ShowSortDialog(
             sortTypeSelected = sortTypeSelected,
             onSelectSortTypeOption = onSelectSortTypeOption,
@@ -93,7 +107,7 @@ fun HomeContent(
 
         when (uiState) {
             HomeUiState.Loading -> ShowLoading()
-            is HomeUiState.HasHotels -> ShowHotelsList(uiState.hotels, onSelectHotel = onSelectHotel)
+            is HomeUiState.HasHotels -> ShowHotelsList(hotels = uiState.hotels, onSelectHotel = onSelectHotel)
             is HomeUiState.Error -> ShowError(onRefreshHotels = onRefreshHotels)
         }
     }
@@ -117,17 +131,30 @@ fun Title() {
 @Composable
 fun SortOption(
     sortTypeSelected: SortType,
-    onShowSortTypeDialog: (Boolean) -> Unit
+    onShowSortTypeDialog: (Boolean) -> Unit,
+    isAscending: Boolean,
+    onSelectAscending: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        TextButton(onClick = {
-            onShowSortTypeDialog(true)
-        }) {
+        TextButton(
+            onClick = { onShowSortTypeDialog(true) }
+        ) {
             Text(text = stringResource(R.string.sorted_by_with_param, sortTypeSelected.name))
+        }
+
+        IconButton(
+            onClick = { onSelectAscending() }
+        ) {
+            Icon(
+                modifier = Modifier.size(24.dp, 24.dp),
+                imageVector = if (isAscending) Icons.Rounded.ArrowUpward else Icons.Rounded.ArrowDownward,
+                contentDescription = null,
+                tint = MaterialTheme.colors.primaryVariant,
+            )
         }
     }
 }
@@ -144,15 +171,21 @@ fun ShowSortDialog(
         AlertDialog(
             onDismissRequest = { onShowSortTypeDialog(false) },
             confirmButton = {
-                TextButton(onClick = {
-                    onSelectSortTypeOption(newSortOptionSelected)
-                    onShowSortTypeDialog(false)
-                })
-                { Text(text = stringResource(R.string.ok)) }
+                TextButton(
+                    onClick = {
+                        onSelectSortTypeOption(newSortOptionSelected)
+                        onShowSortTypeDialog(false)
+                    }
+                ) {
+                    Text(text = stringResource(R.string.ok))
+                }
             },
             dismissButton = {
-                TextButton(onClick = { onShowSortTypeDialog(false) })
-                { Text(text = stringResource(R.string.cancel)) }
+                TextButton(
+                    onClick = { onShowSortTypeDialog(false) }
+                ) {
+                    Text(text = stringResource(R.string.cancel))
+                }
             },
             title = { Text(text = stringResource(R.string.sorted_by)) },
             text = { SortOptions(sortTypeSelected) { newSortOptionSelected = it } }
