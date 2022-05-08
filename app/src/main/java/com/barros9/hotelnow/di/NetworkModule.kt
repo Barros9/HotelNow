@@ -28,7 +28,6 @@ class NetworkModule {
                     Json {
                         ignoreUnknownKeys = true
                         isLenient = true
-                        encodeDefaults = false
                     }
                 )
             }
