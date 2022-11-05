@@ -1,9 +1,9 @@
 package com.barros9.hotelnow.data.di
 
-import com.barros9.hotelnow.data.datasource.localdatasource.HotelsLocalDataSource
-import com.barros9.hotelnow.data.datasource.localdatasource.HotelsLocalDataSourceImpl
-import com.barros9.hotelnow.data.datasource.remotedatasource.HotelsRemoteDataSource
-import com.barros9.hotelnow.data.datasource.remotedatasource.HotelsRemoteDataSourceImpl
+import com.barros9.hotelnow.data.datasource.localdatasource.HotelLocalDataSource
+import com.barros9.hotelnow.data.datasource.localdatasource.HotelLocalDataSourceImpl
+import com.barros9.hotelnow.data.datasource.remotedatasource.HotelRemoteDataSource
+import com.barros9.hotelnow.data.datasource.remotedatasource.HotelRemoteDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,11 +16,11 @@ internal class DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideHotelsRemoteDataSource(remoteDataSource: HotelsRemoteDataSourceImpl): HotelsRemoteDataSource =
+    fun provideHotelRemoteDataSource(remoteDataSource: HotelRemoteDataSourceImpl): HotelRemoteDataSource =
         remoteDataSource
 
     @Provides
     @Singleton
-    fun provideHotelsLocalDataSource(localDataSource: HotelsLocalDataSourceImpl): HotelsLocalDataSource =
+    fun provideHotelLocalDataSource(localDataSource: HotelLocalDataSourceImpl): HotelLocalDataSource =
         localDataSource
 }

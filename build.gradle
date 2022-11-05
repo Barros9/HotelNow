@@ -4,9 +4,12 @@ plugins {
     id 'org.jetbrains.kotlin.android' version "$kotlinVersion" apply false
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlinVersion" apply false
     id 'com.google.dagger.hilt.android' version "$hiltPluginVersion" apply false
+    id 'org.jetbrains.kotlinx.kover' version "$koverVersion" apply false
 }
 
 allprojects {
+    apply plugin: 'kover'
+
     afterEvaluate { project ->
         if (project.hasProperty("android")) {
             android {
@@ -24,6 +27,45 @@ allprojects {
                 kotlinOptions {
                     jvmTarget = JavaVersion.VERSION_11.toString()
                 }
+            }
+        }
+    }
+
+    koverMerged {
+        enable()
+        filters {
+            classes {
+                excludes.addAll(
+                        // Hilt
+                        "*.di.*",
+                        "dagger.hilt.**",
+                        "hilt_aggregated_deps.*",
+                        "*.*_Factory",
+                        "*.*_MembersInjector",
+                        "*.*_HiltModules*",
+                        "*.Hilt_*",
+                        "*.*_NavigatorModule",
+                        "*_Factory\$*",
+
+                        // Room
+                        "*.*_Impl*",
+
+                        // Compose
+                        "*ComposableSingletons\$*",
+                        "*ScreenKt",
+                        "*ScreenKt\$*",
+
+                        // App
+                        "com.barros9.hotelnow.App",
+                        "com.barros9.hotelnow.MainActivity",
+                        "com.barros9.hotelnow.MainActivity\$*",
+
+                        // Libraries
+                        "com.barros9.hotelnow.presentation.theme.*",
+
+                        // BuildConfig
+                        "*.BuildConfig",
+                )
             }
         }
     }

@@ -5,11 +5,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.barros9.hotelnow.data.database.model.CheckInDatabaseModel
+import com.barros9.hotelnow.data.database.model.CheckOutDatabaseModel
 import com.barros9.hotelnow.data.database.model.ContactDatabaseModel
 import com.barros9.hotelnow.data.database.model.HotelDatabaseModel
 import com.barros9.hotelnow.data.database.model.HotelDatabaseModelRelations
 import com.barros9.hotelnow.data.database.model.LocationDatabaseModel
-import com.barros9.hotelnow.data.database.model.RangeHoursDatabaseModel
 
 @Dao
 internal interface HotelDao {
@@ -45,7 +46,10 @@ internal interface HotelDao {
     suspend fun insertLocation(locationDatabaseModel: LocationDatabaseModel)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRangeHours(rangeHoursDatabaseModel: RangeHoursDatabaseModel)
+    suspend fun insertCheckIn(checkInDatabaseModel: CheckInDatabaseModel)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCheckOut(checkOutDatabaseModel: CheckOutDatabaseModel)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertContact(contactDatabaseModel: ContactDatabaseModel)

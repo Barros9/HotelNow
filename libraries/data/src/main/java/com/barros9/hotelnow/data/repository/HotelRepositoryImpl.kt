@@ -3,8 +3,8 @@ package com.barros9.hotelnow.data.repository
 import com.barros9.hotelnow.data.database.mapper.mapFromDomainModel
 import com.barros9.hotelnow.data.database.mapper.mapToDomainModel
 import com.barros9.hotelnow.data.database.model.HotelDatabaseModelRelations
-import com.barros9.hotelnow.data.datasource.localdatasource.HotelsLocalDataSource
-import com.barros9.hotelnow.data.datasource.remotedatasource.HotelsRemoteDataSource
+import com.barros9.hotelnow.data.datasource.localdatasource.HotelLocalDataSource
+import com.barros9.hotelnow.data.datasource.remotedatasource.HotelRemoteDataSource
 import com.barros9.hotelnow.data.network.mapper.mapToDomainModel
 import com.barros9.hotelnow.data.network.model.HotelNetworkModel
 import com.barros9.hotelnow.domain.model.Hotel
@@ -16,8 +16,8 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
 internal class HotelRepositoryImpl @Inject constructor(
-    private val remoteDataSource: HotelsRemoteDataSource,
-    private val localDataSource: HotelsLocalDataSource
+    private val remoteDataSource: HotelRemoteDataSource,
+    private val localDataSource: HotelLocalDataSource
 ) : HotelRepository {
 
     override suspend fun getHotels(sortType: SortType, isAsc: Boolean): Flow<Result<List<Hotel>>> =
@@ -38,8 +38,8 @@ internal class HotelRepositoryImpl @Inject constructor(
                 localDataSource.insertHotels(hotels.map(Hotel::mapFromDomainModel))
                 hotels.forEach { hotel ->
                     localDataSource.insertLocation(hotel.location.mapFromDomainModel(hotel.id))
-                    localDataSource.insertRangeHours(hotel.checkIn.mapFromDomainModel(hotel.id))
-                    localDataSource.insertRangeHours(hotel.checkOut.mapFromDomainModel(hotel.id))
+                    localDataSource.insertCheckIn(hotel.checkIn.mapFromDomainModel(hotel.id))
+                    localDataSource.insertCheckOut(hotel.checkOut.mapFromDomainModel(hotel.id))
                     localDataSource.insertContact(hotel.contact.mapFromDomainModel(hotel.id))
                 }
             }

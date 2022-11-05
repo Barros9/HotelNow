@@ -1,6 +1,7 @@
 package com.barros9.hotelnow.data.di
 
 import android.content.Context
+import androidx.room.Room
 import com.barros9.hotelnow.data.database.HotelDatabase
 import dagger.Module
 import dagger.Provides
@@ -15,9 +16,13 @@ internal class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context) = HotelDatabase.getInstance(context)
+    fun provideDatabase(@ApplicationContext context: Context) =
+        Room.databaseBuilder(context, HotelDatabase::class.java, "hotels.db")
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Singleton
     @Provides
-    fun provideDatabaseDao(hotelsDatabase: HotelDatabase) = hotelsDatabase.hotelDao()
+    fun provideDatabaseDao(hotelsDatabase: HotelDatabase) =
+        hotelsDatabase.hotelDao()
 }

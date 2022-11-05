@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-internal data class RangeHoursDatabaseModel(
+internal data class CheckOutDatabaseModel(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     @ColumnInfo(name = "hotelId", index = true)

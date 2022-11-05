@@ -1,16 +1,17 @@
 package com.barros9.hotelnow.data.datasource.localdatasource
 
 import com.barros9.hotelnow.data.database.HotelDao
+import com.barros9.hotelnow.data.database.model.CheckInDatabaseModel
+import com.barros9.hotelnow.data.database.model.CheckOutDatabaseModel
 import com.barros9.hotelnow.data.database.model.ContactDatabaseModel
 import com.barros9.hotelnow.data.database.model.HotelDatabaseModel
 import com.barros9.hotelnow.data.database.model.HotelDatabaseModelRelations
 import com.barros9.hotelnow.data.database.model.LocationDatabaseModel
-import com.barros9.hotelnow.data.database.model.RangeHoursDatabaseModel
 import javax.inject.Inject
 
-internal class HotelsLocalDataSourceImpl @Inject constructor(
+internal class HotelLocalDataSourceImpl @Inject constructor(
     private val hotelDao: HotelDao
-) : HotelsLocalDataSource {
+) : HotelLocalDataSource {
     override suspend fun getHotels(): List<HotelDatabaseModelRelations> =
         hotelDao.getHotels()
 
@@ -35,8 +36,11 @@ internal class HotelsLocalDataSourceImpl @Inject constructor(
     override suspend fun insertLocation(locationDatabaseModel: LocationDatabaseModel) =
         hotelDao.insertLocation(locationDatabaseModel)
 
-    override suspend fun insertRangeHours(rangeHoursDatabaseModel: RangeHoursDatabaseModel) =
-        hotelDao.insertRangeHours(rangeHoursDatabaseModel)
+    override suspend fun insertCheckIn(checkInDatabaseModel: CheckInDatabaseModel) =
+        hotelDao.insertCheckIn(checkInDatabaseModel)
+
+    override suspend fun insertCheckOut(checkOutDatabaseModel: CheckOutDatabaseModel) =
+        hotelDao.insertCheckOut(checkOutDatabaseModel)
 
     override suspend fun insertContact(contactDatabaseModel: ContactDatabaseModel) =
         hotelDao.insertContact(contactDatabaseModel)

@@ -14,5 +14,6 @@ internal class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideHotelRepository(repository: HotelRepositoryImpl): HotelRepository = repository
+    fun provideHotelRepository(repository: HotelRepositoryImpl): HotelRepository =
+        repository
 }

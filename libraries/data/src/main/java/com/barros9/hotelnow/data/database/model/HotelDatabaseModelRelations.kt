@@ -15,18 +15,18 @@ internal data class HotelDatabaseModelRelations(
     val location: LocationDatabaseModel,
 
     @Relation(
-        entity = RangeHoursDatabaseModel::class,
+        entity = CheckInDatabaseModel::class,
         parentColumn = "id",
         entityColumn = "hotelId",
     )
-    val checkIn: RangeHoursDatabaseModel,
+    val checkIn: CheckInDatabaseModel,
 
     @Relation(
-        entity = RangeHoursDatabaseModel::class,
+        entity = CheckOutDatabaseModel::class,
         parentColumn = "id",
         entityColumn = "hotelId",
     )
-    val checkOut: RangeHoursDatabaseModel,
+    val checkOut: CheckOutDatabaseModel,
 
     @Relation(
         entity = ContactDatabaseModel::class,

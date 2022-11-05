@@ -1,13 +1,13 @@
-package com.barros9.hotelnow.data.datasource.remotedatasource
+package com.barros9.hotelnow.data.network
 
 import com.barros9.hotelnow.data.network.model.HotelNetworkModel
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import javax.inject.Inject
 
-internal class HotelsRemoteDataSourceImpl @Inject constructor(
+internal class HotelNetwork @Inject constructor(
     private val httpClient: HttpClient,
     private val baseUrl: String
-) : HotelsRemoteDataSource {
+) : HotelApi {
     override suspend fun getHotels() = httpClient.get<List<HotelNetworkModel>>(baseUrl)
 }
