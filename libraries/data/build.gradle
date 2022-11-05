@@ -1,0 +1,27 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlinx-serialization'
+}
+
+dependencies {
+    implementation project(":libraries:domain")
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltPluginVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltPluginVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:$hiltVersion"
+
+    // Ktor
+    implementation "io.ktor:ktor-client-json:$ktorVersion"
+    implementation "io.ktor:ktor-client-serialization-jvm:$ktorVersion"
+    implementation "io.ktor:ktor-client-android:$ktorVersion"
+    implementation "io.ktor:ktor-client-logging:$ktorVersion"
+
+    // Room
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+}

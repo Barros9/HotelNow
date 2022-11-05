@@ -1,0 +1,13 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+dependencies {
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltPluginVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltPluginVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:$hiltVersion"
+}
