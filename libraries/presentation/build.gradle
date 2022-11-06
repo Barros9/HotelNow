@@ -39,4 +39,14 @@ dependencies {
     // Accompanist
     implementation "com.google.accompanist:accompanist-pager:$accompanistPagerVersion"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanistPagerVersion"
+
+    // Test
+    testImplementation "androidx.test.ext:junit-ktx:$junitVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "app.cash.turbine:turbine:$turbineVersion"
+
+    // Android Test
+    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
 }

@@ -59,16 +59,13 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by homeViewModel.uiState
-    val showSortTypeDialog by homeViewModel.showSortTypeDialog
     val sortTypeSelected by homeViewModel.sortTypeSelected
     val isAscending by homeViewModel.isAscending
 
     HomeContent(
         uiState = uiState,
         onSelectHotel = { hotelId -> navHostController.navigate("detail/$hotelId") },
-        onRefreshHotels = { homeViewModel.refreshHotels() },
-        showSortTypeDialog = showSortTypeDialog,
-        onShowSortTypeDialog = { homeViewModel.showSortTypeDialog(it) },
+        onRetry = { homeViewModel.onRetry() },
         sortTypeSelected = sortTypeSelected,
         onSelectSortTypeOption = { homeViewModel.selectSortTypeOption(it) },
         isAscending = isAscending,
@@ -80,14 +77,14 @@ fun HomeScreen(
 private fun HomeContent(
     uiState: HomeUiState,
     onSelectHotel: (Long) -> Unit,
-    onRefreshHotels: () -> Unit,
-    showSortTypeDialog: Boolean,
-    onShowSortTypeDialog: (Boolean) -> Unit,
+    onRetry: () -> Unit,
     sortTypeSelected: SortType,
     onSelectSortTypeOption: (SortType) -> Unit,
     isAscending: Boolean,
     onSelectAscending: () -> Unit
 ) {
+    val showSortTypeDialog = remember { mutableStateOf(false) }
+
     Surface {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -96,24 +93,24 @@ private fun HomeContent(
             Title()
             SortOption(
                 sortTypeSelected = sortTypeSelected,
-                onShowSortTypeDialog = onShowSortTypeDialog,
+                onShowSortTypeDialog = { showSortTypeDialog.value = it },
                 isAscending = isAscending,
                 onSelectAscending = onSelectAscending
             )
             ShowSortDialog(
                 sortTypeSelected = sortTypeSelected,
                 onSelectSortTypeOption = onSelectSortTypeOption,
-                showSortTypeDialog = showSortTypeDialog,
-                onShowSortTypeDialog = onShowSortTypeDialog
+                showSortTypeDialog = showSortTypeDialog.value,
+                onShowSortTypeDialog = { showSortTypeDialog.value = it },
             )
 
             when (uiState) {
                 HomeUiState.Loading -> ShowLoading()
-                is HomeUiState.HasHotels -> ShowHotelsList(
+                is HomeUiState.ShowHotels -> ShowHotelsList(
                     hotels = uiState.hotels,
                     onSelectHotel = onSelectHotel
                 )
-                is HomeUiState.Error -> ShowError(onRefreshHotels = onRefreshHotels)
+                is HomeUiState.Error -> ShowError(onRetry = onRetry)
             }
         }
     }
@@ -266,7 +263,7 @@ private fun ShowLoading() {
 
 @Composable
 private fun ShowError(
-    onRefreshHotels: () -> Unit
+    onRetry: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -280,7 +277,7 @@ private fun ShowError(
             text = stringResource(id = R.string.error_message)
         )
         Button(
-            onClick = { onRefreshHotels() },
+            onClick = { onRetry() },
             content = {
                 Text(
                     text = stringResource(id = R.string.retry),

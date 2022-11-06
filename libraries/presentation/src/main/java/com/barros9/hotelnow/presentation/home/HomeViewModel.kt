@@ -11,6 +11,7 @@ import com.barros9.hotelnow.domain.usecase.GetHotelsUseCase
 import com.barros9.hotelnow.presentation.home.model.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -19,11 +20,12 @@ class HomeViewModel @Inject constructor(
     private val getHotelsUseCase: GetHotelsUseCase
 ) : ViewModel() {
 
-    private val _uiState by lazy { mutableStateOf<HomeUiState>(HomeUiState.Loading) }
-    val uiState: State<HomeUiState> by lazy { _uiState }
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        _uiState.value = HomeUiState.Error
+    }
 
-    private val _showSortTypeDialog by lazy { mutableStateOf(false) }
-    val showSortTypeDialog: State<Boolean> by lazy { _showSortTypeDialog }
+    private val _uiState by lazy { mutableStateOf<HomeUiState>(HomeUiState.Loading) }
+    val uiState: State<HomeUiState> by lazy { _uiState.apply { updateHotels() } }
 
     private val _sortTypeSelected by lazy { mutableStateOf(SortType.Name) }
     val sortTypeSelected: State<SortType> by lazy { _sortTypeSelected }
@@ -31,33 +33,29 @@ class HomeViewModel @Inject constructor(
     private val _isAscending by lazy { mutableStateOf(true) }
     val isAscending: State<Boolean> by lazy { _isAscending }
 
-    init {
-        refreshHotels()
-    }
-
-    fun refreshHotels() {
-        viewModelScope.launch {
+    private fun updateHotels() {
+        viewModelScope.launch(exceptionHandler) {
             _uiState.value = HomeUiState.Loading
             getHotelsUseCase(_sortTypeSelected.value, _isAscending.value).collectLatest { result ->
                 _uiState.value = when (result) {
-                    is Success -> HomeUiState.HasHotels(result.data)
+                    is Success -> HomeUiState.ShowHotels(result.data)
                     is Error -> HomeUiState.Error
                 }
             }
         }
     }
 
-    fun showSortTypeDialog(isOpen: Boolean) {
-        _showSortTypeDialog.value = isOpen
+    fun onRetry() {
+        updateHotels()
     }
 
     fun selectSortTypeOption(sortType: SortType) {
         _sortTypeSelected.value = sortType
-        refreshHotels()
+        updateHotels()
     }
 
     fun selectAscending() {
         _isAscending.value = !_isAscending.value
-        refreshHotels()
+        updateHotels()
     }
 }
