@@ -18,3 +18,7 @@ This app is mentioned in the following articles:
   stored with [Room](https://developer.android.com/training/data-storage/room)
 * The Dependency Injection module is based
   on [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+
+## Thanks
+
+<a href="https://www.flaticon.com/free-icons/hotel" title="hotel icons">Hotel icons created by Freepik - Flaticon</a>
