@@ -1,0 +1,36 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlinx-serialization'
+    id 'kotlin-kapt'
+}
+
+dependencies {
+    implementation project(":libraries:domain")
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltPluginVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltPluginVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:$hiltVersion"
+
+    // Ktor
+    implementation "io.ktor:ktor-client-json:$ktorVersion"
+    implementation "io.ktor:ktor-client-serialization-jvm:$ktorVersion"
+    implementation "io.ktor:ktor-client-android:$ktorVersion"
+    implementation "io.ktor:ktor-client-logging:$ktorVersion"
+
+    // Room
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+
+    // Test
+    testImplementation "androidx.room:room-testing:$roomVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$junitVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "io.ktor:ktor-client-mock:$ktorVersion"
+    testImplementation "app.cash.turbine:turbine:$turbineVersion"
+}

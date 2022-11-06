@@ -1,0 +1,19 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
+}
+
+dependencies {
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltPluginVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltPluginVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:$hiltVersion"
+
+    // Test
+    testImplementation "androidx.test.ext:junit-ktx:$junitVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "app.cash.turbine:turbine:$turbineVersion"
+}
