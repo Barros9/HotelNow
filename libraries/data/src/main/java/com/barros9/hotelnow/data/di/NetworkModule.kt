@@ -1,6 +1,6 @@
 package com.barros9.hotelnow.data.di
 
-import com.barros9.hotelnow.data.network.CustomHttpLogger
+import android.util.Log
 import com.barros9.hotelnow.data.network.HotelApi
 import com.barros9.hotelnow.data.network.HotelNetwork
 import dagger.Module
@@ -12,6 +12,7 @@ import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.logging.LogLevel
+import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.HttpSendPipeline
 import javax.inject.Singleton
@@ -35,7 +36,11 @@ internal class NetworkModule {
                 socketTimeout = 30_000
             }
             install(Logging) {
-                logger = CustomHttpLogger()
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        Log.d("loggerTag", message)
+                    }
+                }
                 level = LogLevel.ALL
             }
             install(JsonFeature) {

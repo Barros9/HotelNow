@@ -54,10 +54,10 @@ internal class HotelLocalDataSourceTest {
         // When
         hotelLocalDataSource.insertHotels(listOfHotelDatabaseModel.map { it.hotelDatabaseModel })
         listOfHotelDatabaseModel.forEach { hotel ->
-            hotelDao.insertLocation(hotel.location)
-            hotelDao.insertCheckIn(hotel.checkIn)
-            hotelDao.insertCheckOut(hotel.checkOut)
-            hotelDao.insertContact(hotel.contact)
+            hotelLocalDataSource.insertLocation(hotel.location)
+            hotelLocalDataSource.insertCheckIn(hotel.checkIn)
+            hotelLocalDataSource.insertCheckOut(hotel.checkOut)
+            hotelLocalDataSource.insertContact(hotel.contact)
         }
 
         // Then

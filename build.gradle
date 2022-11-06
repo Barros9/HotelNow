@@ -67,6 +67,11 @@ allprojects {
                         "*.BuildConfig",
                 )
             }
+            annotations {
+                excludes.addAll(
+                        "kotlinx.serialization.Serializable",
+                )
+            }
         }
     }
 }
