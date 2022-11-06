@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -67,9 +66,9 @@ fun HomeScreen(
         onSelectHotel = { hotelId -> navHostController.navigate("detail/$hotelId") },
         onRetry = { homeViewModel.onRetry() },
         sortTypeSelected = sortTypeSelected,
-        onSelectSortTypeOption = { homeViewModel.selectSortTypeOption(it) },
+        onSelectSortTypeOption = { homeViewModel.onSelectSortTypeOption(it) },
         isAscending = isAscending,
-        onSelectAscending = { homeViewModel.selectAscending() }
+        onSelectAscending = { homeViewModel.onSelectAscending() }
     )
 }
 
@@ -91,13 +90,13 @@ private fun HomeContent(
             verticalArrangement = Arrangement.Top
         ) {
             Title()
-            SortOption(
+            SortTypeRaw(
                 sortTypeSelected = sortTypeSelected,
                 onShowSortTypeDialog = { showSortTypeDialog.value = it },
                 isAscending = isAscending,
                 onSelectAscending = onSelectAscending
             )
-            ShowSortDialog(
+            ShowSortTypeDialog(
                 sortTypeSelected = sortTypeSelected,
                 onSelectSortTypeOption = onSelectSortTypeOption,
                 showSortTypeDialog = showSortTypeDialog.value,
@@ -133,7 +132,7 @@ private fun Title() {
 }
 
 @Composable
-private fun SortOption(
+private fun SortTypeRaw(
     sortTypeSelected: SortType,
     onShowSortTypeDialog: (Boolean) -> Unit,
     isAscending: Boolean,
@@ -168,7 +167,7 @@ private fun SortOption(
 }
 
 @Composable
-private fun ShowSortDialog(
+private fun ShowSortTypeDialog(
     sortTypeSelected: SortType,
     onSelectSortTypeOption: (SortType) -> Unit,
     showSortTypeDialog: Boolean,
@@ -251,9 +250,7 @@ private fun SortOptions(
 @Composable
 private fun ShowLoading() {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
+        modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

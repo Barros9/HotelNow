@@ -107,7 +107,7 @@ internal class HomeViewModelTest {
 
         // When
         dispatcher.scheduler.advanceUntilIdle()
-        homeViewModel.selectSortTypeOption(SortType.Stars)
+        homeViewModel.onSelectSortTypeOption(SortType.Stars)
 
         // Then
         coVerify { getHotelsUseCase(any(), any()) }
@@ -121,7 +121,7 @@ internal class HomeViewModelTest {
 
         // When
         dispatcher.scheduler.advanceUntilIdle()
-        homeViewModel.selectAscending()
+        homeViewModel.onSelectAscending()
 
         // Then
         coVerify { getHotelsUseCase(any(), any()) }

@@ -50,7 +50,7 @@ internal class DetailScreenTest {
     }
 
     @Test
-    fun beerIsDisplayed() {
+    fun hotelIsDisplayed() {
         // Given
         coEvery { detailViewModel.uiState } returns mutableStateOf(DetailUiState.ShowHotel(PresentationMock.listOfHotel[0]))
 

@@ -49,12 +49,12 @@ class HomeViewModel @Inject constructor(
         updateHotels()
     }
 
-    fun selectSortTypeOption(sortType: SortType) {
+    fun onSelectSortTypeOption(sortType: SortType) {
         _sortTypeSelected.value = sortType
         updateHotels()
     }
 
-    fun selectAscending() {
+    fun onSelectAscending() {
         _isAscending.value = !_isAscending.value
         updateHotels()
     }
