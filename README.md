@@ -11,6 +11,7 @@ This app is mentioned in the following articles:
 
 * [No more Retrofit, move to Ktor on Android](https://barros9.medium.com/no-more-retrofit-move-to-ktor-on-android-957058819b67)
 * [No more Retrofit, move to Ktor on Android — Logging and Interceptor](https://barros9.medium.com/no-more-retrofit-move-to-ktor-on-android-logging-and-interceptor-a18ba128998)
+* [Android app modularization with Clean Architecture](https://barros9.medium.com/android-app-modularization-with-clean-architecture-9aa2e135a99a)
 
 ## Libraries
 
